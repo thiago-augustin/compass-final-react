@@ -6,11 +6,11 @@ interface ButtonProps {
     children: string;
 }
 
-const BotaoLogin: React.FC<ButtonProps> = ({
+const BtnLogin: React.FC<ButtonProps> = ({
     children,
 }) => 
     <ButtonLogin>
         {children}
     </ButtonLogin>;
 
-export default BotaoLogin;
+export default BtnLogin;

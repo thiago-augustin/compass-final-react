@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from './styles';
 import { color } from '../../components/UI/variables';
 import Texto from 'components/Text';
-import BotaoLogin from '../Button';
+import BtnLogin from '../Button';
 import InputLogin from 'components/Input';
 import Div from './InputDiv';
 import IconElement from 'components/Input/Icon';
@@ -22,7 +22,7 @@ const Section: React.FC = () =>
         <InputLogin placeholder="Senha"></InputLogin>
         <IconElement src={iconPass}></IconElement>
     </Div>
-    <BotaoLogin>Continuar</BotaoLogin>
+    <BtnLogin>Continuar</BtnLogin>
 </Container>
 
 export default Section;
