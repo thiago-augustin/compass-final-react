@@ -10,11 +10,14 @@ import iconPass from '../../assets/pass-icon.svg';
 import classNames from 'classnames';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Invalid } from './Validate';
+import { Invalid, InvalidLast } from './Validate';
 import { Icon } from 'components/Input/Icon/styles';
+import { TemperatureDiv } from 'components/Home/Header/Weather/styles';
+import { Alert } from './Validate';
 
 export default function SectionRegisterContent(){
     const {nome, setNome, password, setPassword} = useContext(UsuarioContext)
+    const [erro, setErro] = useState(false);
 
     const navigate = useNavigate()
 
@@ -32,11 +35,17 @@ export default function SectionRegisterContent(){
                     mode: 'cors',
                     headers: new Headers({'Content-Type': 'Application/Json'}),
                     method: 'POST'
-                    
                 })
-            if(request.status === 201){
-                navigate('/')
-            }
+                const myToken = await request.json()
+                if(request.status === 201){
+                    localStorage.setItem('token', myToken.token)
+                    setNome("");
+                    setPassword("");
+                    navigate('/')
+                    setErro(false)
+                }else if(request.status === 400)(
+                    setErro(true)
+                )
         } catch(error){
             console.log(error);
         }
@@ -81,8 +90,9 @@ export default function SectionRegisterContent(){
     return (
         <FormContent>
             <TextWelcome>Olá,</TextWelcome>
-            <TextInfo>Para continuar navegando de forma<br />segura, efetue o login na rede.</TextInfo>
+            <TextInfo>Para continuar navegando de forma<br />segura, efetue o cadastro na rede.</TextInfo>
             <TextLogin>Cadastro</TextLogin>
+            {erro && <Alert>Email inválido, por favor tente outro!</Alert>}
             <InputDivLogin>
                 <LoginInput
                     placeholder="Usuário"
@@ -98,6 +108,7 @@ export default function SectionRegisterContent(){
                     })}
                 />
             </InputDivLogin>
+            {showError(nome) && <Invalid className={classNames({['valid']: validateEmail()})}>O email deve ter um formato válido</Invalid>}
             <InputDivLogin>
                 <LoginInput
                     placeholder="Senha"
@@ -109,17 +120,16 @@ export default function SectionRegisterContent(){
                     src={iconPass}
                     className={classNames({
                         ['icon']: true,
-                        ['outside']: nome.length == 0
+                        ['outside']: password.length == 0
                     })}
                 />
             </InputDivLogin>
-            <Login>Já possui cadastro? <a onClick={()=> navigate('/')}>Logar agora</a></Login>
-            {showError(nome) && !validateEmail() && <Invalid>Seu email precisa ter um formato válido</Invalid>}
-            {showError(password) && !validateSize() && <Invalid>Sua senha precisa conter no mínimo 6 caracteres</Invalid>}
-            {showError(password) && !validateNumber() && <Invalid>Sua senha precisa conter no mínimo 1 número</Invalid>}
-            {showError(password) && !validateUppercase() && <Invalid>Sua senha precisa conter no mínimo 1 letra maiúscula</Invalid>}
-            {showError(password) && !validateLowercase() && <Invalid>Sua senha precisa conter no mínimo 1 letra minúscula</Invalid>}
+            {showError(password) && <Invalid className={classNames({['valid']: validateSize()})}>A senha deve conter no mínimo 6 caracteres</Invalid>}
+            {showError(password) && <Invalid className={classNames({['valid']: validateNumber()})}>A senha deve conter no mínimo 1 número</Invalid>}
+            {showError(password) && <Invalid className={classNames({['valid']: validateUppercase()})}>A senha deve conter no mínimo 1 letra maiúscula</Invalid>}
+            {showError(password) && <InvalidLast className={classNames({['valid']: validateLowercase()})}>A senha deve conter no mínimo 1 letra minúscula</InvalidLast>}
             <ButtonLogin onClick={()=> validateForm()}>Continuar</ButtonLogin>
+            <Login>Já possui cadastro? <a onClick={()=> navigate('/')}>Logar agora</a></Login>
         </FormContent>
     )
 };

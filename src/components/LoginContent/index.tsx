@@ -67,10 +67,15 @@ export default function SectionLoginContent(){
                     
                 })
             const myToken = await request.json()
-            console.log(request);
             if(request.status === 201){
                 localStorage.setItem('token', myToken.token)
+                setNome("");
+                setPassword("");
                 navigate('/home')
+            }else if(request.status === 404){
+                setError(true);
+            }else {
+                setError(true);
             }
             
         } catch(error){
@@ -99,7 +104,14 @@ export default function SectionLoginContent(){
                         ['error']: error
                     })}
                     value={nome}
-                    onChange={(event)=>setNome(event.target.value)}
+                    onKeyDown={(event) => {if(event.key === 'Enter'){
+                        event.preventDefault();
+                        validateForm()
+                    }}}
+                    onChange={(event)=>{
+                        setError(false)
+                        setNome(event.target.value)
+                    }}
                 />
                 <Icon
                     src={iconUser}
@@ -117,7 +129,14 @@ export default function SectionLoginContent(){
                         ['error']: error
                     })}
                     value={password}
-                    onChange={(event)=>setPassword(event.target.value)}
+                    onKeyDown={(event) => {if(event.key === 'Enter'){
+                        event.preventDefault();
+                        validateForm()
+                    }}}
+                    onChange={(event)=> {
+                        setError(false)
+                        setPassword(event.target.value)
+                    }}
                 />
                 <Icon 
                     src={iconPass}
