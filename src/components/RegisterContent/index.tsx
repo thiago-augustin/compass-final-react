@@ -1,64 +1,32 @@
 import { UsuarioContext } from 'common/context/Usuario';
 import { FormContent } from 'components/Sections/styles';
 import { TextWelcome, TextInfo, TextLogin } from 'components/Text/styles';
-import { Register } from './Register';
+import { Login } from './Login';
 import { ButtonLogin } from 'components/Button/styles';
 import { InputDivLogin } from 'components/Divs/styles';
 import { LoginInput } from 'components/Input/styles';
 import iconUser from '../../assets/user-icon.svg';
 import iconPass from '../../assets/pass-icon.svg';
 import classNames from 'classnames';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Validate from './Validate';
+import { Invalid } from './Validate';
 import { Icon } from 'components/Input/Icon/styles';
 
-export default function SectionLoginContent(){
+export default function SectionRegisterContent(){
     const {nome, setNome, password, setPassword} = useContext(UsuarioContext)
-    const [error, setError] = useState(false)
-
-    useEffect(() => {
-        let token = localStorage.getItem('token') || '';
-        if(token){
-            isValid(token);
-        }
-    }, []);
 
     const navigate = useNavigate()
 
     function validateForm(){
-        if(validateEmail() && validatePassword()){
-            login()
-            setError(false)
-            return
-        }
-        setError(true) 
-    }
-
-    async function isValid(token: string){
-        try{
-            const request = await fetch('http://127.0.0.1:8080/api/auth/validate',
-                {
-                    mode: 'cors',
-                    headers: new Headers({
-                        'Content-Type': 'Application/Json',
-                        'Authorization': 'Bearer ' + token,
-                    }),
-                    method: 'GET'
-                })
-            if(request.status === 200){
-                navigate('/home')
-            }else {
-                localStorage.removeItem('token');
-            }
-        } catch(error){
-            console.log("Erro: "+error);
+        if(validateEmail() && validateLowercase() && validateUppercase() && validateNumber() && validateSize()){
+            register()
         }
     }
 
-    async function login(){
+    async function register(){
         try{
-            const request = await fetch('http://127.0.0.1:8080/api/auth/signin',
+            const request = await fetch('http://127.0.0.1:8080/api/auth/signup',
                 {
                     body: JSON.stringify({email: nome, password: password}),
                     mode: 'cors',
@@ -66,15 +34,23 @@ export default function SectionLoginContent(){
                     method: 'POST'
                     
                 })
-            const myToken = await request.json()
-            console.log(request);
             if(request.status === 201){
-                localStorage.setItem('token', myToken.token)
-                navigate('/home')
+                navigate('/')
             }
-            
         } catch(error){
             console.log(error);
+        }
+    }
+
+    function changeEmail(event: string){
+        setPassword(event);
+    }
+
+    function showError(event: string){
+        if(event.length > 0){
+            return true;
+        }else{
+            return false
         }
     }
 
@@ -82,22 +58,35 @@ export default function SectionLoginContent(){
         return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(nome)
     }
 
-    function validatePassword(){
-        return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password)
+    function validateUppercase(){
+        return /[A-Z]/.test(password)
+    }
+
+    function validateLowercase(){
+        return /[a-z]/.test(password)
+    }
+
+    function validateSize(){
+        if(password.length >= 6){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function validateNumber(){
+        return /[0-9]/.test(password)
     }
 
     return (
         <FormContent>
             <TextWelcome>Olá,</TextWelcome>
             <TextInfo>Para continuar navegando de forma<br />segura, efetue o login na rede.</TextInfo>
-            <TextLogin>Login</TextLogin>
+            <TextLogin>Cadastro</TextLogin>
             <InputDivLogin>
                 <LoginInput
                     placeholder="Usuário"
                     type="text"
-                    className={classNames({
-                        ['error']: error
-                    })}
                     value={nome}
                     onChange={(event)=>setNome(event.target.value)}
                 />
@@ -113,27 +102,23 @@ export default function SectionLoginContent(){
                 <LoginInput
                     placeholder="Senha"
                     type="password"
-                    className={classNames({
-                        ['error']: error
-                    })}
                     value={password}
-                    onChange={(event)=>setPassword(event.target.value)}
+                    onChange={(event) => changeEmail(event.target.value)}
                 />
                 <Icon 
                     src={iconPass}
                     className={classNames({
                         ['icon']: true,
-                        ['outside']: password.length == 0
+                        ['outside']: nome.length == 0
                     })}
                 />
             </InputDivLogin>
-            <Register>Não possui cadastro? <a onClick={()=> navigate('/register')}>Cadastre-se agora</a></Register>
-            <Validate className={classNames({
-                ['error']: error
-            })}>
-                Ops, usuário ou senha inválidos.<br />
-                Tente novamente!
-            </Validate>
+            <Login>Já possui cadastro? <a onClick={()=> navigate('/')}>Logar agora</a></Login>
+            {showError(nome) && !validateEmail() && <Invalid>Seu email precisa ter um formato válido</Invalid>}
+            {showError(password) && !validateSize() && <Invalid>Sua senha precisa conter no mínimo 6 caracteres</Invalid>}
+            {showError(password) && !validateNumber() && <Invalid>Sua senha precisa conter no mínimo 1 número</Invalid>}
+            {showError(password) && !validateUppercase() && <Invalid>Sua senha precisa conter no mínimo 1 letra maiúscula</Invalid>}
+            {showError(password) && !validateLowercase() && <Invalid>Sua senha precisa conter no mínimo 1 letra minúscula</Invalid>}
             <ButtonLogin onClick={()=> validateForm()}>Continuar</ButtonLogin>
         </FormContent>
     )

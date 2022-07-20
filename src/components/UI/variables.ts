@@ -15,7 +15,7 @@ export const color = {
         lightOrange: "linear-gradient(180deg, #E29933 0%, #C13216 100%);",
         black: "linear-gradient(180deg, #222222 0%, #000000 100%);",
         yellow: "linear-gradient(180deg, #E9B425 0%, #E29933 100%);",
-        gray: "linear-gradient(180deg, #33383D 0%, #1C1D20 100%);",
+        gray: "linear-gradient(90deg, #33383D 0%, #1C1D20 100%);",
         darkOrange: "linear-gradient(90deg, #FF2D04 0%, #C13216 100%);"
     }
 };
