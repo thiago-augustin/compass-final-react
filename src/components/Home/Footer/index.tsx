@@ -10,7 +10,7 @@ export default function Footer(){
             <InfoDiv>
                 <ParagraphDiv>
                     <Paragraph>
-                        Essa janela do navegador é usada para manter sua sessão de autenticação ativa. Deixe-a<br />
+                        Essa janela do navegador é usada para manter sua sessão de autenticação ativa. Deixe-a <br /> 
                         aberta em segundo plano e abra uma nova janela para continuar a navegar.
                     </Paragraph>
                     <Divider /> 

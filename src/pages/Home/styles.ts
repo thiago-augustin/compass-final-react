@@ -10,4 +10,16 @@ export const Container = styled.div`
     width: 100vw;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 768.9px){
+        background-image: none;
+    }
+
+    @media (min-width: 769px) and (max-width: 1024.9px){
+        background-size: 425px;
+    }
+
+    @media (min-width: 1025px) and (max-width: 1440.9px){
+        background-size: 640px;
+    }
 `;

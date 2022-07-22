@@ -11,7 +11,7 @@ export default function MainContent(){
             <SecondaryContent>construindo experiências digitais</SecondaryContent>
             {/*eslint-disable-next-line quotes*/}
             <MainTitle>{`that enable our client's growth`}</MainTitle>
-            <SecondaryContent>que permitam o crescimento dos nossos clientes</SecondaryContent>
+            <SecondaryContent>que permitam o crescimento dos <br /> nossos clientes</SecondaryContent>
         </ContentDiv>
     )
 }

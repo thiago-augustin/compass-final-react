@@ -12,10 +12,10 @@ export const Invalid = styled.span`
     width: 100%;
     padding-top: 2%;
     padding-bottom: 1%;
-    color: #f50707;
+    color: orange;
     opacity: 1;
     &.valid {
-        color: #15e60e;
+        color: #258d19;
     }
 
     @media (max-width: 320.9px){
@@ -44,10 +44,10 @@ export const InvalidLast = styled.span`
     width: 100%;
     padding-top: 2%;
     padding-bottom: 10%;
-    color: #f50707;
+    color: orange;
     opacity: 1;
     &.valid {
-        color: #15e60e;
+        color: #258d19;
     }
 
     @media (max-width: 320.9px){
@@ -87,10 +87,10 @@ export const Alert = styled.span`
     width: 100%;
     padding-top: 2%;
     padding-bottom: 1%;
-    color: #f50707;
+    color: orange;
     opacity: 1;
     &.valid {
-        color: #15e60e;
+        color: #258d19;
     }
 
     @media (max-width: 320.9px){

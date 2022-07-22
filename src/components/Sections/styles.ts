@@ -16,7 +16,7 @@ export const FormContent = styled(SectionSqueleton)`
 
     @media (max-width: 320.9px){
         width: 90%;
-        min-height: 90%;
+        min-height: 65%;
     }
 
     @media (min-width: 321px) and (max-width: 375.9px){

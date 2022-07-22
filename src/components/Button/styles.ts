@@ -26,6 +26,10 @@ const ButtonSqueleton = styled.button`
         height: 56px;
     }
 
+    @media (min-width: 426px) and (max-width: 768.9px){
+        
+    }
+
     @media (min-width: 1921px){
         font-size: ${fonts.size.size20};
         line-height: ${fonts.lineHeight.size20};

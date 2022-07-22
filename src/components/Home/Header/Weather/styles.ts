@@ -2,11 +2,13 @@ import styled from "styled-components";
 import { fonts } from "components/UI/variables";
 
 export const WeatherDiv = styled.div`
-    margin-top: 25px;
-    margin-right: 40px;
     min-width: 121px;
     display: flex;
     flex-direction:column;
+
+    @media (max-width: 425.9px){
+        order: 2;
+    }
 `;
 
 export const LocationDiv = styled.div`
@@ -21,6 +23,12 @@ export const LocationContent = styled.h2`
     font-size: ${fonts.size.size14};
     line-height: ${fonts.lineHeight.size14};
     text-align: center;
+
+    @media (max-width: 425.9px){
+        width: 100%;
+        font-size: 12px;
+        line-height: 14px;
+    }
 `
 
 export const TemperatureDiv = styled.div`
@@ -32,6 +40,10 @@ export const TemperatureDiv = styled.div`
 export const TemperatureContent = styled.h3`
     font-weight: ${fonts.fontWeight.weight700};
     font-size: ${fonts.lineHeight.size48};
+
+    @media (max-width: 425.9px){
+        font-size: 36px;
+    }
 `;
 
 export const IconDiv = styled.div`
@@ -41,5 +53,10 @@ export const IconDiv = styled.div`
     svg{
         width:100%;
         height: 100%;
+    }
+
+    @media (max-width: 425.9px){
+        width: 24;
+        height: 24;
     }
 `;

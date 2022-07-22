@@ -22,6 +22,8 @@ export default function SectionRegisterContent(){
     const {nome, setNome, password, setPassword} = useContext(UsuarioContext)
     const [erro, setErro] = useState(false);
 
+    const [vazio, setVazio] = useState(false);
+
     const navigate = useNavigate()
 
     function validateForm(){
@@ -66,6 +68,14 @@ export default function SectionRegisterContent(){
         }
     }
 
+    function validateInputs(){
+        if (!nome || !password) {
+            setVazio(true);
+        }else{
+            setVazio(false);
+        }
+    }
+
     function validateEmail(){
         return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(nome)
     }
@@ -101,7 +111,10 @@ export default function SectionRegisterContent(){
                     placeholder="Usuário"
                     type="text"
                     value={nome}
-                    onChange={(event)=>setNome(event.target.value)}
+                    onChange={(event)=>{
+                        setVazio(false);
+                        setNome(event.target.value);
+                    }}
                 />
                 <Icon
                     src={iconUser}
@@ -111,18 +124,20 @@ export default function SectionRegisterContent(){
                     })}
                 />
             </InputDivLogin>
-            {showError(nome) &&
             <Invalid className={classNames({['valid']: validateEmail()})}>
                 {!validateEmail() && <ErrorIcon><img src={incorrect} alt="" /></ErrorIcon>}
                 {validateEmail() && <ErrorIcon><img src={correct} alt="" /></ErrorIcon>}
                 O email deve ter um formato válido
-            </Invalid>}
+            </Invalid>
             <InputDivLogin>
                 <LoginInput
                     placeholder="Senha"
                     type="password"
                     value={password}
-                    onChange={(event) => changeEmail(event.target.value)}
+                        onChange={(event) => {
+                            setVazio(false);
+                            changeEmail(event.target.value)
+                        }}
                 />
                 <Icon 
                     src={iconPass}
@@ -132,31 +147,33 @@ export default function SectionRegisterContent(){
                     })}
                 />
             </InputDivLogin>
-            {showError(password) && 
             <Invalid className={classNames({['valid']: validateSize()})}>
                 {!validateSize() && <ErrorIcon><img src={incorrect} alt="" /></ErrorIcon>}
                 {validateSize() && <ErrorIcon><img src={correct} alt="" /></ErrorIcon>}
                 Mínimo 6 caracteres
-            </Invalid>}
-            {showError(password) && 
+            </Invalid>
             <Invalid className={classNames({['valid']: validateNumber()})}>
                 {!validateNumber() && <ErrorIcon><img src={incorrect} alt="" /></ErrorIcon>}
                 {validateNumber() && <ErrorIcon><img src={correct} alt="" /></ErrorIcon>}
                 Mínimo 1 número
-            </Invalid>}
-            {showError(password) && 
+            </Invalid>
             <Invalid className={classNames({['valid']: validateUppercase()})}>
                 {!validateUppercase() && <ErrorIcon><img src={incorrect} alt="" /></ErrorIcon>}
                 {validateUppercase() && <ErrorIcon><img src={correct} alt="" /></ErrorIcon>}
                 Mínimo 1 letra maiúscula
-            </Invalid>}
-            {showError(password) && 
+            </Invalid>
             <InvalidLast className={classNames({['valid']: validateLowercase()})}>
                 {!validateLowercase() && <ErrorIcon><img src={incorrect} alt="" /></ErrorIcon>}
                 {validateLowercase() && <ErrorIcon><img src={correct} alt="" /></ErrorIcon>}
                 Mínimo 1 letra minúscula
+            </InvalidLast>
+            {vazio && <InvalidLast>
+                Por favor, preencha todos os campos!
             </InvalidLast>}
-            <ButtonLogin onClick={()=> validateForm()}>Cadastre-se</ButtonLogin>
+            <ButtonLogin onClick={()=> {
+                validateInputs();
+                validateForm();
+                }}>Cadastre-se</ButtonLogin>
             <Login>Já possui cadastro? <a onClick={()=> navigate('/')}>Logar agora</a></Login>
         </FormContent>
     )
