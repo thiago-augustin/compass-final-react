@@ -9,4 +9,12 @@ export const Icon = styled.img`
     &.outside {
         transform: translateY(-50%)translateX(270%);
     }
+
+    @media (max-width: 320.9px){
+        width: 16px;
+    }
+
+    @media (min-width: 321px) and (max-width: 375.9px){
+        width: 18px;
+    }
 `;
