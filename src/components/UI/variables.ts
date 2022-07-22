@@ -64,6 +64,7 @@ export const fonts = {
     },
     fontWeight: {
         weight400: "400",
+        weight500: "500",
         weight700: "700",
     }
 };

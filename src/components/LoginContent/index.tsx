@@ -153,7 +153,7 @@ export default function SectionLoginContent(){
                 Ops, usuário ou senha inválidos.<br />
                 Tente novamente!
             </Validate>
-            <ButtonLogin onClick={()=> validateForm()}>Continuar</ButtonLogin>
+            <ButtonLogin onClick={()=> validateForm()}>Entrar</ButtonLogin>
         </FormContent>
     )
 };
