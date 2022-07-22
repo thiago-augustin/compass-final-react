@@ -146,7 +146,6 @@ export default function SectionLoginContent(){
                     })}
                 />
             </InputDivLogin>
-            <Register>Não possui cadastro? <a onClick={()=> navigate('/register')}>Cadastre-se agora</a></Register>
             <Validate className={classNames({
                 ['error']: error
             })}>
@@ -154,6 +153,7 @@ export default function SectionLoginContent(){
                 Tente novamente!
             </Validate>
             <ButtonLogin onClick={()=> validateForm()}>Entrar</ButtonLogin>
+            <Register>Não possui cadastro? <a onClick={()=> navigate('/register')}>Cadastre-se agora</a></Register>
         </FormContent>
     )
 };
